@@ -1,0 +1,334 @@
+imported-threats:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0 # Not yet specified
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # Not yet specified
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH06
+        strength: 0 # Not yet specified
+        remarks: Data is Lost or Corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0 # Not yet specified
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH09
+        strength: 0 # Not yet specified
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH11
+        strength: 0 # Not yet specified
+        remarks: Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH12
+        strength: 0 # Not yet specified
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH15
+        strength: 0 # Not yet specified
+        remarks: Automated Enumeration and Reconnaissance by Non-Human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0 # Not yet specified
+        remarks: Logging and Monitoring are Disabled
+
+threats:
+  - id: CCC.Tracing.TH01
+    title: Sensitive Data Leakage via Span Attributes
+    description: |
+      Instrumented application code inadvertently includes sensitive values
+      such as passwords, tokens, PII, or health data as span tags or
+      attributes during telemetry collection or context propagation. Anyone
+      with read access to the tracing backend can extract this data, violating
+      data minimisation and compliance requirements.
+    capabilities:
+      - reference-id: CCC.Tracing
+        entries:
+          - reference-id: CCC.Tracing.CP01
+            strength: 0 # Not yet specified
+            remarks: Distributed Telemetry Collection
+          - reference-id: CCC.Tracing.CP03
+            strength: 0 # Not yet specified
+            remarks: Distributed Context Propagation
+          - reference-id: CCC.Tracing.CP09
+            strength: 0 # Not yet specified
+            remarks: Trace Retention
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1530
+            strength: 0 # Not yet specified
+            remarks: Data from Cloud Storage
+          - reference-id: T1552
+            strength: 0 # Not yet specified
+            remarks: Unsecured Credentials
+          - reference-id: T1048
+            strength: 0 # Not yet specified
+            remarks: Exfiltration Over Alternative Protocol
+      - reference-id: OWASPTOP10
+        entries:
+          - reference-id: A02:2021
+      - reference-id: CWE
+        entries:
+          - reference-id: CWE-312
+          - reference-id: CWE-532
+
+  - id: CCC.Tracing.TH02
+    title: Trace or Span Data Injection
+    description: |
+      A malicious actor injects forged or manipulated trace events, spans,
+      or context headers into the collection pipeline or across service
+      boundaries. This causes the tracing backend to record false execution
+      paths, fabricated latency data, or spoofed service identities,
+      undermining the reliability of diagnostics, alerting, and root cause
+      analysis.
+    capabilities:
+      - reference-id: CCC.Tracing
+        entries:
+          - reference-id: CCC.Tracing.CP01
+            strength: 0 # Not yet specified
+            remarks: Distributed Telemetry Collection
+          - reference-id: CCC.Tracing.CP03
+            strength: 0 # Not yet specified
+            remarks: Distributed Context Propagation
+          - reference-id: CCC.Tracing.CP05
+            strength: 0 # Not yet specified
+            remarks: Error Correlation
+          - reference-id: CCC.Tracing.CP10
+            strength: 0 # Not yet specified
+            remarks: Assistance for Root Cause Analysis
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0 # Not yet specified
+            remarks: Data Manipulation
+          - reference-id: T1001.001
+            strength: 0 # Not yet specified
+            remarks: "Data Obfuscation: Junk Data"
+      - reference-id: OWASPTOP10
+        entries:
+          - reference-id: A03:2021
+      - reference-id: CWE
+        entries:
+          - reference-id: CWE-117
+          - reference-id: CWE-20
+
+  - id: CCC.Tracing.TH03
+    title: Trace Context Propagated to Untrusted Systems
+    description: |
+      Trace and span identifier headers are forwarded beyond the internal
+      trust boundary to external or third-party services that are not
+      authorised to receive them. This leaks internal transaction structure,
+      service identities, and correlation identifiers to external parties,
+      enabling topology reconnaissance and correlation attacks.
+    capabilities:
+      - reference-id: CCC.Tracing
+        entries:
+          - reference-id: CCC.Tracing.CP03
+            strength: 0 # Not yet specified
+            remarks: Distributed Context Propagation
+          - reference-id: CCC.Tracing.CP02
+            strength: 0 # Not yet specified
+            remarks: Dependency Mapping and Visualization
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1040
+            strength: 0 # Not yet specified
+            remarks: Network Sniffing
+          - reference-id: T1557
+            strength: 0 # Not yet specified
+            remarks: Adversary-in-the-Middle
+          - reference-id: T1018
+            strength: 0 # Not yet specified
+            remarks: Remote System Discovery
+
+  - id: CCC.Tracing.TH04
+    title: Sampling Configuration Manipulation
+    description: |
+      An unauthorised user modifies sampling rules or manipulates incoming
+      trace context headers to alter sampling decisions. This can be used to
+      force full recording of targeted transactions for surveillance, suppress
+      sampling of security-sensitive traces to evade detection, or cause
+      storage exhaustion by setting sampling rates to 100% across all traffic.
+    capabilities:
+      - reference-id: CCC.Tracing
+        entries:
+          - reference-id: CCC.Tracing.CP06
+            strength: 0 # Not yet specified
+            remarks: Sampling
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0 # Not yet specified
+            remarks: Data Manipulation
+          - reference-id: T1562
+            strength: 0 # Not yet specified
+            remarks: Impair Defenses
+          - reference-id: T1499
+            strength: 0 # Not yet specified
+            remarks: Endpoint Denial of Service
+
+  - id: CCC.Tracing.TH05
+    title: Security Event Loss Due to Aggressive Downsampling
+    description: |
+      Overly aggressive cost-driven or misconfigured sampling rates cause
+      security-relevant traces such as authentication failures, privilege
+      escalation attempts, or data access anomalies to be discarded. The
+      resulting gaps in trace data hinder incident reconstruction and reduce
+      the effectiveness of forensic investigation.
+    capabilities:
+      - reference-id: CCC.Tracing
+        entries:
+          - reference-id: CCC.Tracing.CP06
+            strength: 0 # Not yet specified
+            remarks: Sampling
+          - reference-id: CCC.Tracing.CP09
+            strength: 0 # Not yet specified
+            remarks: Trace Retention
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1562.008
+            strength: 0 # Not yet specified
+            remarks: "Impair Defenses: Disable Cloud Logs"
+          - reference-id: T1070
+            strength: 0 # Not yet specified
+            remarks: Indicator Removal
+
+  - id: CCC.Tracing.TH06
+    title: Premature Deletion of Trace Evidence
+    description: |
+      Short or misconfigured retention TTL policies, or deliberate deletion
+      of trace partitions by a malicious insider, cause trace data relevant
+      to an ongoing or unreported security incident to be removed before
+      investigators can access it. This destroys forensic evidence and
+      prevents complete incident reconstruction.
+    capabilities:
+      - reference-id: CCC.Tracing
+        entries:
+          - reference-id: CCC.Tracing.CP09
+            strength: 0 # Not yet specified
+            remarks: Trace Retention
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1070.004
+            strength: 0 # Not yet specified
+            remarks: "Indicator Removal on Host: File Deletion"
+          - reference-id: T1485
+            strength: 0 # Not yet specified
+            remarks: Data Destruction
+          - reference-id: T1562.008
+            strength: 0 # Not yet specified
+            remarks: "Impair Defenses: Disable Cloud Logs"
+
+  - id: CCC.Tracing.TH07
+    title: Topology Information Disclosure via Dependency Map
+    description: |
+      The dependency map exposes the full internal service graph, including
+      internal addresses, service names, database endpoints, call
+      relationships, and health signals. Unauthorised access to this map
+      provides an attacker with a detailed attack surface inventory that
+      can be used to plan targeted exploitation or denial-of-service attacks.
+    capabilities:
+      - reference-id: CCC.Tracing
+        entries:
+          - reference-id: CCC.Tracing.CP02
+            strength: 0 # Not yet specified
+            remarks: Dependency Mapping and Visualization
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1580
+            strength: 0 # Not yet specified
+            remarks: Cloud Infrastructure Discovery
+          - reference-id: T1046
+            strength: 0 # Not yet specified
+            remarks: Network Service Discovery
+          - reference-id: T1018
+            strength: 0 # Not yet specified
+            remarks: Remote System Discovery
+
+  - id: CCC.Tracing.TH08
+    title: Profiling Data Exposes Timing Side Channels
+    description: |
+      Detailed execution timing data including per-operation durations and
+      call counts is accessible to insufficiently authorised users. This can
+      reveal internal business logic, algorithm behaviour, or discriminate
+      between code paths in ways that facilitate targeted attacks, such as
+      timing attacks against authentication or cryptographic operations.
+    capabilities:
+      - reference-id: CCC.Tracing
+        entries:
+          - reference-id: CCC.Tracing.CP04
+            strength: 0 # Not yet specified
+            remarks: Performance Profiling
+          - reference-id: CCC.Tracing.CP07
+            strength: 0 # Not yet specified
+            remarks: Trace Querying & Filtering
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1007
+            strength: 0 # Not yet specified
+            remarks: System Service Discovery
+          - reference-id: T1082
+            strength: 0 # Not yet specified
+            remarks: System Information Discovery
+      - reference-id: CWE
+        entries:
+          - reference-id: CWE-208
+
+  - id: CCC.Tracing.TH09
+    title: Bulk Trace Data Exfiltration via Query Interface
+    description: |
+      An attacker with valid read credentials uses the trace query and
+      filtering interface to perform bulk extraction of all stored trace data,
+      exfiltrating the full history of application behaviour, user activity
+      patterns, internal service topology, and error details that collectively
+      provide a comprehensive picture of the system.
+    capabilities:
+      - reference-id: CCC.Tracing
+        entries:
+          - reference-id: CCC.Tracing.CP07
+            strength: 0 # Not yet specified
+            remarks: Trace Querying & Filtering
+          - reference-id: CCC.Tracing.CP08
+            strength: 0 # Not yet specified
+            remarks: Integration with Logs and Metrics
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1048
+            strength: 0 # Not yet specified
+            remarks: Exfiltration Over Alternative Protocol
+          - reference-id: T1567
+            strength: 0 # Not yet specified
+            remarks: Exfiltration Over Web Service
+          - reference-id: T1020
+            strength: 0 # Not yet specified
+            remarks: Automated Exfiltration
+
+  - id: CCC.Tracing.TH10
+    title: Cross-Signal Privilege Escalation via Shared Identifiers
+    description: |
+      A user with read access to one telemetry signal type exploits shared
+      correlation identifiers such as trace IDs or span IDs to pivot to a
+      more sensitive signal type that they are not authorised to access.
+      The unified observability interface amplifies this risk by correlating
+      all three signal types in a single query response.
+    capabilities:
+      - reference-id: CCC.Tracing
+        entries:
+          - reference-id: CCC.Tracing.CP08
+            strength: 0 # Not yet specified
+            remarks: Integration with Logs and Metrics
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1078
+            strength: 0 # Not yet specified
+            remarks: Valid Accounts
+          - reference-id: T1548
+            strength: 0 # Not yet specified
+            remarks: Abuse Elevation Control Mechanism
